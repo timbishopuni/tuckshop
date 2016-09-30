@@ -48,7 +48,7 @@ public class Orders {
 		String excelFile = fList[0].getPath();
 		
 		//Initialise a new list where we will store all of the orders
-		List<Order> orders = new ArrayList<>();
+		List<Order> orders = new ArrayList<Order>();
 	    FileInputStream inputStream;
 		inputStream = new FileInputStream(new File(excelFile));
 	    Workbook workOrder;
