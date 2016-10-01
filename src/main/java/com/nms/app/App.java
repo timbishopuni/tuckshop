@@ -1,13 +1,21 @@
 package com.nms.app;
 
-/**
- * Hello world!
- *
- */
+import java.io.IOException;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Orders orders = new Orders();
+        try {
+			orders.fillOrders();
+		} catch (TooManyOrdersException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
 }
