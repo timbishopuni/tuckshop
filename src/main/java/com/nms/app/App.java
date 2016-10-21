@@ -9,13 +9,14 @@ public class App
         Orders orders = new Orders();
         try {
 			orders.fillOrders();
-		} catch (TooManyOrdersException e) {
+		} catch (OrdersException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+       // orders.displayOrders();
         
     }
 }

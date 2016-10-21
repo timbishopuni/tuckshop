@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +27,8 @@ public class Order {
 	private String vegemiteSandwhich;
 	private String dietaryRequirements;
 	private String specialIntructions;
+	
+	 private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
 	
 	
 	
@@ -63,40 +66,49 @@ public class Order {
 	            
 	            //Change to fit order
 	            switch (columnIndex) {
-	            case 6:
+	            case 5:
 	                aOrder.setChildFirstName((String) getCellValue(nextCell));
+	                LOGGER.info("Setting child first name: "+getCellValue(nextCell));
+	                break;
+	            case 6:
+	                aOrder.setChildLastName((String) getCellValue(nextCell));
+	                LOGGER.info("Setting child last name: "+getCellValue(nextCell));
 	                break;
 	            case 7:
-	                aOrder.setChildLastName((String) getCellValue(nextCell));
+	                aOrder.setChildClass((String) getCellValue(nextCell));
+	                LOGGER.info("Setting child class: "+getCellValue(nextCell));
 	                break;
 	            case 8:
-	                aOrder.setChildClass((String) getCellValue(nextCell));
-	                break;
-	            case 9:
 	            	aOrder.setProgram((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting child program: "+getCellValue(nextCell));
+	            	break;
+	            case 9:
+	            	aOrder.setDrinks((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting drinks: "+getCellValue(nextCell));
 	            	break;
 	            case 10:
-	            	aOrder.setDrinks((String)getCellValue(nextCell));
+	            	aOrder.setChickenSandwhich((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting chicken sandwhich: "+getCellValue(nextCell));
 	            	break;
 	            case 11:
-	            	aOrder.setChickenSandwhich((String)getCellValue(nextCell));
+	            	aOrder.setHamSandwhich((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting ham sandwhich: "+getCellValue(nextCell));
 	            	break;
 	            case 12:
-	            	aOrder.setHamSandwhich((String)getCellValue(nextCell));
+	            	aOrder.setVegemiteSandwhich((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting vegemite sandwhich: "+getCellValue(nextCell));
 	            	break;
 	            case 13:
-	            	aOrder.setVegemiteSandwhich((String)getCellValue(nextCell));
-	            	break;
-	            case 14:
 	            	aOrder.setSpecialIntructions((String)getCellValue(nextCell));
+	            	LOGGER.info("Setting special instructions: "+getCellValue(nextCell));
 	            	break;
-	            case 15:
-	            	aOrder.setDrinks((String)getCellValue(nextCell));
-	            	break;
-	            
+	           
 	            }
 	        } 
 	    return aOrder;
+	}
+	public void orderToString(){
+		System.out.println(childFirstName+" "+childLastName+ " " +childClass+" "+program+" "+drinks+" "+" "+chickenSandwhich+" "+hamSandwhich+" "+vegemiteSandwhich+" "+dietaryRequirements+" "+specialIntructions);
 	}
 
 	

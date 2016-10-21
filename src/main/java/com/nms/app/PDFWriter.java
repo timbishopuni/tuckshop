@@ -1,5 +1,6 @@
 package com.nms.app;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.util.Date;
 
@@ -7,15 +8,18 @@ import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfChunk;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -105,11 +109,29 @@ public class PDFWriter {
 
 		for(int i = 0; i< numTickets; i++){
 			PdfPCell cell = new PdfPCell();
-			cell.setMinimumHeight((float) 20.0);
-			cell.setFixedHeight((float)20.0);
-			Phrase text = new Phrase ("This is 			some ticket data");
-			cell.setPhrase(text);
+			cell.setMinimumHeight((float) 25.0);
+			//cell.setFixedHeight((float)25.0);
+			
+			//The phrase is the main ticket container
+			Phrase allTicket = new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, (float)6, new BaseColor(0, 0, 0)));
+			
+			//Chunks constitute the individual lines in the tickets
+			Chunk ticketID = new Chunk ("ORDER ID: SKUHGCFD\n");
+			Chunk ticketCode = new Chunk ("Sushi\n");
+			Chunk ticketSpecialInstructions = new Chunk ("Special Instructions:\n");
+			Chunk ticketSpecialInstructionsValue = new Chunk ("Nut Allergy\n");
+			
+			//Add all the chunks to the phrase
+			allTicket.add(ticketID);
+			allTicket.add(ticketCode);
+			allTicket.add(ticketSpecialInstructions);
+			allTicket.add(ticketSpecialInstructionsValue);
+			
+			//Add the phrase to the cell
+			cell.setPhrase(allTicket);
 			cell.setNoWrap(false);
+			
+			//Add the cell to the table
 			table.addCell(cell);
 		}
 		try {
