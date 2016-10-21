@@ -70,27 +70,16 @@ public class PDFWriter {
 	}
 
 	private static void addContent(Document document) throws DocumentException {
-		Anchor anchor = new Anchor("First Chapter", catFont);
-		anchor.setName("First Chapter");
+		Anchor anchor = new Anchor();
 
 		// Second parameter is the number of the chapter
 		Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-		Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-		Section subCatPart = catPart.addSection(subPara);
-		subCatPart.add(new Paragraph("Hello"));
+		Section subCatPart = catPart.addSection(new Paragraph("", catFont));
 
-		subPara = new Paragraph("Subcategory 2", subFont);
-		subCatPart = catPart.addSection(subPara);
-		subCatPart.add(new Paragraph("Paragraph 1"));
-		subCatPart.add(new Paragraph("Paragraph 2"));
-		subCatPart.add(new Paragraph("Paragraph 3"));
+
 
 		// add a list
-		createList(subCatPart);
-		Paragraph paragraph = new Paragraph();
-		addEmptyLine(paragraph, 5);
-		subCatPart.add(paragraph);
 
 		// add a table
 		createTable(subCatPart);
@@ -105,13 +94,32 @@ public class PDFWriter {
 		// Second parameter is the number of the chapter
 		catPart = new Chapter(new Paragraph(anchor), 1);
 
-		subPara = new Paragraph("Subcategory", subFont);
-		subCatPart = catPart.addSection(subPara);
-		subCatPart.add(new Paragraph("This is a very important message"));
 
 		// now add all this to the document
 		document.add(catPart);
 
+	}
+	public static void addTickets(Document ticketDocument, int numTickets){
+		PdfPTable table = new PdfPTable(3);
+		
+
+		for(int i = 0; i< numTickets; i++){
+			PdfPCell cell = new PdfPCell();
+			cell.setMinimumHeight((float) 20.0);
+			cell.setFixedHeight((float)20.0);
+			Phrase text = new Phrase ("This is 			some ticket data");
+			cell.setPhrase(text);
+			cell.setNoWrap(false);
+			table.addCell(cell);
+		}
+		try {
+			ticketDocument.add(table);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public static void createTable(Section subCatPart) throws BadElementException {
@@ -133,7 +141,7 @@ public class PDFWriter {
 //		c1 = new PdfPCell(new Phrase("Table Header 3"));
 //		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 //		table.addCell(c1);
-		table.setHeaderRows(1);
+//		table.setHeaderRows(1);
 
 		table.addCell("1.0                       someting                      ++something");
 		table.addCell("1.1");
@@ -167,7 +175,7 @@ public class PDFWriter {
 			document.open();
 			addMetaData(document);
 			//addTitlePage(document);
-			addContent(document);
+			addTickets(document, 20);
 			document.close();
 		} catch (Exception e) {
 			e.printStackTrace();
