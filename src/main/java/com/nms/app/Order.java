@@ -25,6 +25,12 @@ public class Order {
 	private String chickenSandwhich;
 	private String hamSandwhich;
 	private String vegemiteSandwhich;
+	//Upon looking at the menu options we should have 1 sandwhich category, with multiple options
+	private String sandwhich;
+	private String snack;
+	private String hotFood;
+	private String other;
+	private String Sushi;
 	private String dietaryRequirements;
 	private String specialIntructions;
 	

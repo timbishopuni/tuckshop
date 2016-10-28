@@ -69,6 +69,7 @@ public class Orders {
 			aOrder = aOrder.readOrderFromExcelRows(nextRow);
 			orders.add(aOrder);
 		}
+		workOrder.close();
 	}
 
 	public void displayOrders() {
