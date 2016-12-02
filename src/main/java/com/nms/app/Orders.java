@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Orders {
 	private List<Order> orders;
-	private ExcelReader excelReader;
 	private int NUM_COLUMNS = 10;
 	private int OFFSET = 1;
 	private String ORDER_FOLDER = "../orders";

@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Order {
 	//Consider adding a submitted by or parent name field in the eFroms, then add it in here
 	//Basic order data members
+	//All of these strings are the categories(Columns) created when the orders are filled out
 	private String childFirstName;
 	private String childLastName;
 	private String childClass;
