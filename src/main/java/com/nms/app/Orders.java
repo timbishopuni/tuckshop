@@ -19,7 +19,8 @@ public class Orders {
 	private List<Order> orders;
 	private int NUM_COLUMNS = 10;
 	private int OFFSET = 1;
-	private String ORDER_FOLDER = "../orders";
+	//"../orders"    ---For a folder outside the project folder
+	private String ORDER_FOLDER = "./data";
 	private File folder;
 	private File[] files;
 
@@ -40,6 +41,7 @@ public class Orders {
 
 		// Read in any files in the Orders folder
 		File[] fList = listFiles(ORDER_FOLDER);
+		System.out.println(fList.length);
 		if (fList.length > 1) {
 			throw new OrdersException("Error: You have attempted to read multiple order files at once!");
 		} else if (fList.length == 0) {
