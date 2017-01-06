@@ -7,6 +7,14 @@ public class MenuItem {
 	private String categoury;
 	private double price;
 	
+	public MenuItem(int quantity, String name, String categoury, double price){
+		this.quantity = quantity;
+		this.name = name;
+		this.categoury = categoury;
+		this.price = price;
+		
+	}
+	
 	public double getPrice() {
 		return price;
 	}
