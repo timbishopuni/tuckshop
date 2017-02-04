@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Orders {
 	private List<Order> orders;
+	private List<Sandwhich> sandwhiches;
 	private int NUM_COLUMNS = 10;
 	private int OFFSET = 1;
 	//"../orders"    ---For a folder outside the project folder
@@ -68,6 +69,11 @@ public class Orders {
 			nextRow = iterator.next();
 			Order aOrder = new Order();
 			aOrder = aOrder.readOrderFromExcelRows(nextRow);
+			
+			//If we found a sandwhich in the previous orders, add it to the sandwhich list for later print out
+			if(aOrder.getSandwhich()!=null&&aOrder.getSandwhich()!=""){
+				sandwhiches.add(new Sandwhich(aOrder.getSandwhich(), aOrder.getChildFirstName()+aOrder.getChildLastName(), aOrder.getSpecialIntructions(), aOrder.getChildClass()));
+			}
 			orders.add(aOrder);
 		}
 		workOrder.close();
