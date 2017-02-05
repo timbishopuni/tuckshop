@@ -70,7 +70,7 @@ public class Orders {
 			Order aOrder = new Order();
 			aOrder = aOrder.readOrderFromExcelRows(nextRow);
 			
-			//If we found a sandwhich in the previous orders, add it to the sandwhich list for later print out
+			//If we find a sandwhich in the previous orders, add it to the sandwhich list for later print out
 			if(aOrder.getSandwhich()!=null&&aOrder.getSandwhich()!=""){
 				sandwhiches.add(new Sandwhich(aOrder.getSandwhich(), aOrder.getChildFirstName()+aOrder.getChildLastName(), aOrder.getSpecialIntructions(), aOrder.getChildClass()));
 			}

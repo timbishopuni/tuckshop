@@ -16,14 +16,28 @@ public class MenuItem {
 
 	private int quantity;
 	private String name;
-	private String categoury; // Lunch or Snack
-	private String type; // Hot food cold food etc
+	private String categoury; // Hot food, sushi, sandwhich etc
+	private String type; // I think this refers to lunch or snack
 
-	public MenuItem(int quantity, String name, String categoury, double price) {
-		this.quantity = quantity;
+	/**
+	 * This constructor should be used for initial setup of menu items
+	 * If there is not already a matching menu item in within the MenuItems list, a new instance will be created
+	 * @param Name
+	 * @param categoury
+	 */
+	public MenuItem(String name, String categoury, String type){
+		this.quantity = 1;
 		this.name = name;
 		this.categoury = categoury;
+		this.type = type;
+	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getQuantity() {
@@ -48,6 +62,9 @@ public class MenuItem {
 
 	public void setCategoury(String categoury) {
 		this.categoury = categoury;
+	}
+	public void incrementQuantity(){
+		this.quantity+=1;
 	}
 
 }
