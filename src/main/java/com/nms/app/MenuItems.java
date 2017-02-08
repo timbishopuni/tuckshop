@@ -98,6 +98,7 @@ public class MenuItems {
 	}
 	/**
 	 * Sort all of the items/ingredients based on their categoury (Fruit, Hot Food, Drinks etc)
+	 * THIS FUNCTION REQUIRES JAVA 8 OR HIGHER
 	 */
 	public void sortItems(){
 		menuItems.sort((o1, o2) -> o1.getCategoury().compareTo(o2.getCategoury()));

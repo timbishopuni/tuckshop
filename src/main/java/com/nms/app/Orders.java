@@ -15,9 +15,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**
+ * Main processing class - contains most data containers.
+ * Right now it only acocmodates 1 excel order file, but it would be quite simple to extend it to accomodate many
+ * @author Tim
+ *
+ */
 public class Orders {
 	private List<Order> orders;
 	private List<Sandwhich> sandwhiches;
+	private MenuItems menuItems;
 	private int NUM_COLUMNS = 10;
 	private int OFFSET = 1;
 	//"../orders"    ---For a folder outside the project folder
@@ -26,6 +33,8 @@ public class Orders {
 	private File[] files;
 
 	public Orders() {
+		menuItems = new MenuItems();
+		
 	}
 
 	public File[] listFiles(String directoryName) {
@@ -74,6 +83,7 @@ public class Orders {
 			if(aOrder.getSandwhich()!=null&&aOrder.getSandwhich()!=""){
 				sandwhiches.add(new Sandwhich(aOrder.getSandwhich(), aOrder.getChildFirstName()+aOrder.getChildLastName(), aOrder.getSpecialIntructions(), aOrder.getChildClass()));
 			}
+			menuItems.storeOrderIngredients(aOrder);
 			orders.add(aOrder);
 		}
 		workOrder.close();
