@@ -14,6 +14,8 @@ INCOMPLETE
 A scaffold exists for output to pdf in table form. Work will have to be done to standardize the table spacings and output of the actual order data. For the PDF tickets all of the data you need to output is contained in the orders file (there is an array of Order in there). Conform to the supplied tickets example - make it exactly the same.
 	-SUMMARY PAGES-
 3 separate summary pages relating to order data must be completed. The logic for these functions should be placed in MenuItems (some work is done). Create as new class which outputs to a PDF file. Refer to existing PDF writer class and supplied documentation.
+	-SANDWHICH CLASS
+Currently all of the ingredients for a sandwhich are read from an order file but they are'nt stored anywhere. Some work on the Sandwhich class must be done - Ive started the switch statement that stored the ingredients in variables but it isn't finished yet.
 --------------------------------------------------------------------------------------------------
 
 

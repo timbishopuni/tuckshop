@@ -52,11 +52,9 @@ public class Orders {
 		// Read in any files in the Orders folder
 		File[] fList = listFiles(ORDER_FOLDER);
 		System.out.println(fList.length);
-		if (fList.length > 1) {
-			throw new OrdersException("Error: You have attempted to read multiple order files at once!");
-		} else if (fList.length == 0) {
+		if (fList.length <= 0) {
 			throw new OrdersException("Error: There is no order file!");
-		}
+		} 
 		String excelFile = fList[0].getPath();
 
 		// Initialise a new list where we will store all of the orders

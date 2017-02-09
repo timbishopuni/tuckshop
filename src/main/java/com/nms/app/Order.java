@@ -36,7 +36,7 @@ public class Order {
 	private String other;
 	private String Sushi;
 	private String snack;
-	private String specialIntructions;
+	private String specialIntructions = "";
 
 	private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
 
