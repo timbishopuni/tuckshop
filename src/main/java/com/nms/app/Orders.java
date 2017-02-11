@@ -34,6 +34,9 @@ public class Orders {
 
 	public Orders() {
 		menuItems = new MenuItems();
+		sandwhiches = new ArrayList<Sandwhich>();
+		orders = new ArrayList<Order>();
+		
 		
 	}
 
@@ -57,8 +60,7 @@ public class Orders {
 		} 
 		String excelFile = fList[0].getPath();
 
-		// Initialise a new list where we will store all of the orders
-		orders = new ArrayList<Order>();
+		// Open the excel file then 
 		FileInputStream inputStream;
 		inputStream = new FileInputStream(new File(excelFile));
 		Workbook workOrder;

@@ -35,7 +35,7 @@ public class Sandwhich {
 		this.name = name + " " + specialInstructions;
 		this.classGroup = classGroup;
 
-		String[] ingredients = sandwhichIngredients.split(",");
+		String[] ingredients = sandwhichIngredients.split(", ");
 		for (int i = 0; i < ingredients.length; i++) {
 			switch (ingredients[i]) {
 			case "White High Fibre Bread":
@@ -46,13 +46,25 @@ public class Sandwhich {
 				break;
 			case "Vegimite":
 				vegimite = 1;
-				// TODO
-				// As so on and so forth until all ingredients for a sandwhich are covered
-
+				break;
+			case "Chicken":
+				chicken = 1;
+				break;
+			case "Tomato":
+				tomato = 1;
+				break;
+			case "Ham":
+				ham = 1;
+			case "Lettuce":
+				lettuce = 1;
+				break;
+			case "Margerine":
+				margerine = true;
+				break;
+			default:
+				break;
 			}
-			
 		}
-		
 
 	}
 

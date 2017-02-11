@@ -42,39 +42,39 @@ public class MenuItems {
 	public void storeOrderIngredients(Order order) {
 
 		// Sandwhich
-		String[] sandwhichIngredients = order.getSandwhich().split(",");
+		String[] sandwhichIngredients = order.getSandwhich().split(", ");
 		for (String ingredient : sandwhichIngredients) {
 			addItemAfterSearch(ingredient, "sandwhich", lunch);
 		}
 
 		// Drinks
-		String[] drinks = order.getDrinks().split(",");
+		String[] drinks = order.getDrinks().split(", ");
 		for (String drink : drinks) {
 			addItemAfterSearch(drink, "Drinks", lunch);
 		}
 		// Fruit
-		String[] fruits = order.getFruit().split(",");
+		String[] fruits = order.getFruit().split(", ");
 		for (String fruit : fruits) {
 			addItemAfterSearch(fruit, "Fruit", lunch);
 		}
 		// Hot Food
-		String[] hotFoods = order.getHotFood().split(",");
+		String[] hotFoods = order.getHotFood().split(", ");
 		for (String hotFood : hotFoods) {
 			addItemAfterSearch(hotFood, "Hot Food", lunch);
 		}
 		// Other -- Dont currently know what this categoury of food is
-		String[] others = order.getOther().split(",");
+		String[] others = order.getOther().split(", ");
 		for (String other : others) {
 			addItemAfterSearch(other, "Other", lunch);
 		}
 		// Sushi
-		String[] sushis = order.getSushi().split(",");
+		String[] sushis = order.getSushi().split(", ");
 		for (String sushi : sushis) {
 			addItemAfterSearch(sushi, "Sushi", lunch);
 		}
 		// Snack -- Type Must be set to "snack" - I believe it corosponds to a
 		// different meal time - May be wrong
-		String[] snacks = order.getSnack().split(",");
+		String[] snacks = order.getSnack().split(", ");
 		for (String snack : snacks) {
 			if (snack.contains("Milk") || snack.contains("Juice")) {
 				addItemAfterSearch(snack, "Drink", this.snack);

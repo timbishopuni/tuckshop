@@ -36,11 +36,28 @@ public class Order {
 	private String other;
 	private String Sushi;
 	private String snack;
-	private String specialIntructions = "";
+	private String specialIntructions;
 
 	private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
 
 	public Order() {
+		formType = "";
+		submitDate = "";
+		reference= -1;
+		childFirstName= "";
+		childLastName= "";
+		childClass= "";
+		parentFirstName= "";
+		parentLastName= "";
+		parentEmail= "";
+		sandwhich= "";
+		drinks= "";
+		fruit= "";
+		hotFood= "";
+		other= "";
+		Sushi= "";
+		snack= "";
+		specialIntructions = "";
 	}
 
 	private Object getCellValue(Cell cell) {
@@ -60,8 +77,8 @@ public class Order {
 
 	/**
 	 * Code will be adapted from
-	 * http://www.codejava.net/coding/how-to-read-excel-files-in-java-using-apache-poi
-	 * Essentially a copy and paste now to learn how apache poi works
+	 * http://www.codejava.net/coding/how-to-read-excel-files-in-java-using-
+	 * apache-poi Essentially a copy and paste now to learn how apache poi works
 	 * 
 	 * @param excelFilePath
 	 * @return
@@ -75,80 +92,84 @@ public class Order {
 			int columnIndex = nextCell.getColumnIndex();
 
 			// Change to fit order, columns start from index 0 and up
-			switch (columnIndex) {
-			case 0:
-				aOrder.setFormType((String) getCellValue(nextCell));
-				LOGGER.info("Setting form type:  " + getCellValue(nextCell));
-				break;
-			case 1:
-				aOrder.setSubmitDate((String) getCellValue(nextCell));
-				LOGGER.info("Setting submit date:  " + getCellValue(nextCell));
-				break;
-			case 3:
-				aOrder.setReference((Double) getCellValue(nextCell));
-				LOGGER.info("Setting reference number:  " + getCellValue(nextCell));
-				break;
-			case 5:
-				aOrder.setChildFirstName((String) getCellValue(nextCell));
-				LOGGER.info("Setting child first name: " + getCellValue(nextCell));
-				break;
-			case 6:
-				aOrder.setChildLastName((String) getCellValue(nextCell));
-				LOGGER.info("Setting child last name: " + getCellValue(nextCell));
-				break;
-			case 7:
-				aOrder.setChildClass((String) getCellValue(nextCell));
-				LOGGER.info("Setting child class: " + getCellValue(nextCell));
-				break;
-			case 8:
-				aOrder.setParentFirstName((String) getCellValue(nextCell));
-				LOGGER.info("Setting parent first name: " + getCellValue(nextCell));
-				break;
-			case 9:
-				aOrder.setParentLastName((String) getCellValue(nextCell));
-				LOGGER.info("Setting parent last name: " + getCellValue(nextCell));
-				break;
-			case 10:
-				aOrder.setParentEmail((String) getCellValue(nextCell));
-				LOGGER.info("Setting Parent Email: " + getCellValue(nextCell));
-				break;
-			case 11:
-				aOrder.setSandwhich((String) getCellValue(nextCell));
-				LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
-				break;
-			case 12:
-				aOrder.setDrinks((String) getCellValue(nextCell));
-				LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
-				break;
-			case 13:
-				aOrder.setFruit((String) getCellValue(nextCell));
-				LOGGER.info("Setting Fruit: " + getCellValue(nextCell));
-				break;
-			case 14:
-				aOrder.setOther((String) getCellValue(nextCell));
-				LOGGER.info("Setting Other: " + getCellValue(nextCell));
-				break;
-			case 15:
-				aOrder.setSushi((String) getCellValue(nextCell));
-				LOGGER.info("Setting Sushi: " + getCellValue(nextCell));
-				break;
-			case 16:
-				aOrder.setHotFood((String) getCellValue(nextCell));
-				LOGGER.info("Setting Hot Food: " + getCellValue(nextCell));
-				break;
-			case 17:
-				if (aOrder.getFormType().equals("Tuckshop Pre Primary")) {
+			if (getCellValue(nextCell) != null) {
+				switch (columnIndex) {
+				case 0:
+					aOrder.setFormType((String) getCellValue(nextCell));
+					LOGGER.info("Setting form type:  " + getCellValue(nextCell));
+					break;
+				case 1:
+					aOrder.setSubmitDate((String) getCellValue(nextCell));
+					LOGGER.info("Setting submit date:  " + getCellValue(nextCell));
+					break;
+				case 3:
+					aOrder.setReference((Double) getCellValue(nextCell));
+					LOGGER.info("Setting reference number:  " + getCellValue(nextCell));
+					break;
+				case 5:
+					aOrder.setChildFirstName((String) getCellValue(nextCell));
+					LOGGER.info("Setting child first name: " + getCellValue(nextCell));
+					break;
+				case 6:
+					aOrder.setChildLastName((String) getCellValue(nextCell));
+					LOGGER.info("Setting child last name: " + getCellValue(nextCell));
+					break;
+				case 7:
+					aOrder.setChildClass((String) getCellValue(nextCell));
+					LOGGER.info("Setting child class: " + getCellValue(nextCell));
+					break;
+				case 8:
+					aOrder.setParentFirstName((String) getCellValue(nextCell));
+					LOGGER.info("Setting parent first name: " + getCellValue(nextCell));
+					break;
+				case 9:
+					aOrder.setParentLastName((String) getCellValue(nextCell));
+					LOGGER.info("Setting parent last name: " + getCellValue(nextCell));
+					break;
+				case 10:
+					aOrder.setParentEmail((String) getCellValue(nextCell));
+					LOGGER.info("Setting Parent Email: " + getCellValue(nextCell));
+					break;
+				case 11:
+					aOrder.setSandwhich((String) getCellValue(nextCell));
+					LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
+					break;
+				case 12:
+					aOrder.setDrinks((String) getCellValue(nextCell));
+					LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
+					break;
+				case 13:
+					aOrder.setFruit((String) getCellValue(nextCell));
+					LOGGER.info("Setting Fruit: " + getCellValue(nextCell));
+					break;
+				case 14:
+					aOrder.setOther((String) getCellValue(nextCell));
+					LOGGER.info("Setting Other: " + getCellValue(nextCell));
+					break;
+				case 15:
+					aOrder.setSushi((String) getCellValue(nextCell));
+					LOGGER.info("Setting Sushi: " + getCellValue(nextCell));
+					break;
+				case 16:
+					aOrder.setHotFood((String) getCellValue(nextCell));
+					LOGGER.info("Setting Hot Food: " + getCellValue(nextCell));
+					break;
+				case 17:
+					if (aOrder.getFormType().equals("Tuckshop Pre Primary")) {
+						aOrder.setSpecialIntructions((String) getCellValue(nextCell));
+						LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
+					} else {
+						aOrder.setSnack((String) getCellValue(nextCell));
+						LOGGER.info("Setting Snack: " + getCellValue(nextCell));
+					}
+					break;
+				// For Pre Primary orders cell index 18 will not exist, so we
+				// dont need to have an if statement (the while(cell.hasNext()
+				// conditional take care of this))
+				case 18:
 					aOrder.setSpecialIntructions((String) getCellValue(nextCell));
-					LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
-				} else {
-					aOrder.setSnack((String) getCellValue(nextCell));
-					LOGGER.info("Setting Snack: " + getCellValue(nextCell));
+					LOGGER.info("Setting Primary Special Instructions: " + getCellValue(nextCell));
 				}
-				break;
-			//For Pre Primary orders cell index 18 will not exist, so we dont need to have an if statement (the while(cell.hasNext() conditional take care of this))
-			case 18:
-				aOrder.setSpecialIntructions((String) getCellValue(nextCell));
-				LOGGER.info("Setting Primary Special Instructions: " + getCellValue(nextCell));
 			}
 		}
 		return aOrder;
