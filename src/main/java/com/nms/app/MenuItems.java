@@ -35,7 +35,7 @@ public class MenuItems {
 	 * have to manually check through each selection in an order, check if it
 	 * null, perform a String split around "," then check if we have a match in
 	 * existing menu items Splitting the strings around the "," for every order
-	 * item is overkill, but neccasary - it is possible for a parent to order
+	 * item is overkill, but necessary - it is possible for a parent to order
 	 * multiple drinks or slices of pizza or other things for their child. We
 	 * don't want to miss anything
 	 */
@@ -62,7 +62,7 @@ public class MenuItems {
 		for (String hotFood : hotFoods) {
 			addItemAfterSearch(hotFood, "Hot Food", lunch);
 		}
-		// Other -- Dont currently know what this categoury of food is
+		// Other -- Dont currently know what this category of food is
 		String[] others = order.getOther().split(", ");
 		for (String other : others) {
 			addItemAfterSearch(other, "Other", lunch);
@@ -85,7 +85,7 @@ public class MenuItems {
 
 	}
 
-	public void addItemAfterSearch(String item, String categoury, String type) {
+	public void addItemAfterSearch(String item, String category, String type) {
 		boolean match = false;
 		for (int i = 0; i < menuItems.size(); i++) {
 			if (menuItems.get(i).getName().equals(item) && menuItems.get(i).getType().equals(type)) {
@@ -93,15 +93,15 @@ public class MenuItems {
 			}
 		}
 		if (!match) {
-			menuItems.add(new MenuItem(item, categoury, type));
+			menuItems.add(new MenuItem(item, category, type));
 		}
 	}
 	/**
-	 * Sort all of the items/ingredients based on their categoury (Fruit, Hot Food, Drinks etc)
+	 * Sort all of the items/ingredients based on their category (Fruit, Hot Food, Drinks etc)
 	 * THIS FUNCTION REQUIRES JAVA 8 OR HIGHER
 	 */
 	public void sortItems(){
-		menuItems.sort((o1, o2) -> o1.getCategoury().compareTo(o2.getCategoury()));
+		menuItems.sort((o1, o2) -> o1.getcategory().compareTo(o2.getcategory()));
 	}
 
 }

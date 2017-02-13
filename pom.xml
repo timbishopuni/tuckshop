@@ -9,6 +9,8 @@
   <url>http://maven.apache.org</url>
   <properties>
   	<poi.version>3.13</poi.version>
+	<maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
   <dependencies>
     <dependency>

@@ -136,7 +136,7 @@ public class Order {
 					break;
 				case 12:
 					aOrder.setDrinks((String) getCellValue(nextCell));
-					LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
+					LOGGER.info("Setting drinks: " + getCellValue(nextCell));
 					break;
 				case 13:
 					aOrder.setFruit((String) getCellValue(nextCell));
@@ -203,6 +203,20 @@ public class Order {
 		System.out.println(childFirstName + " " + childLastName + " " + childClass + " " + parentFirstName + " "
 				+ parentLastName + " " + parentEmail + " " + sandwhich + " " + drinks + " " + fruit + " " + hotFood
 				+ " " + other + " " + specialIntructions);
+	}
+	
+	public void orderToStringFormatted() {
+		String[] orderArray = {childFirstName, childLastName, childClass, parentFirstName, parentLastName, parentEmail, sandwhich, drinks, fruit, hotFood, other, specialIntructions};
+		char letter = 'A';
+		
+		for (String element : orderArray) {
+			if (element != null && element != "") {
+				System.out.println("Column: " + letter++ + " - " + element);				
+			} else {
+				System.out.println("Column: " + letter++ + " ------------------------------");
+			}
+		}
+		System.out.println("\n");
 	}
 
 	public String getFruit() {

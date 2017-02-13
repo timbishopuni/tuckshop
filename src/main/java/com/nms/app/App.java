@@ -9,6 +9,8 @@ public class App
         Orders orders = new Orders();
         try {
 			orders.fillOrders();
+			orders.displayOrders();
+			PDFWriter.generatePDF(orders);
 		} catch (OrdersException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

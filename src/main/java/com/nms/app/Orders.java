@@ -92,9 +92,34 @@ public class Orders {
 	public void displayOrders() {
 		Iterator<Order> orderIterator = orders.iterator();
 		while (orderIterator.hasNext()) {
-			orderIterator.next().orderToString();
-			System.out.println("\n");	
+			orderIterator.next().orderToStringFormatted();
+			//orderIterator.next().orderToString();
+			//System.out.println("\n");	
 		}
 
+	}
+	
+	public List getOrders() {
+		return this.orders;
+	}
+	
+	public Order getOrder(int index) {
+		return this.orders.get(index);
+	}
+	
+	public List getSandwhiches() {
+		return this.sandwhiches;
+	}
+	
+	public Sandwhich getSandwhich(int index) {
+		return this.sandwhiches.get(index);
+	}
+	
+	public MenuItems getMenuItems() {
+		return this.menuItems;
+	}
+	
+	public int size() {
+		return this.orders.size();
 	}
 }
