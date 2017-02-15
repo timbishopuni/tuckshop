@@ -20,10 +20,17 @@ import com.itextpdf.text.pdf.*;
  */
 public class PDFWriter {
 	private static String FILE = "./target/tuckshop.pdf";
-	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+	/* private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+	*/
+	private static Font defaultFont = new Font(FontFactory.getFont(FontFactory.HELVETICA, 15, BaseColor.BLACK));
+	private static Font defaultFontBold = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 15, BaseColor.BLACK));
+	private static Font defaultFontBoldItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 15, BaseColor.BLACK));
+	private static Font defaultFontItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 15, BaseColor.BLACK));
+	private static int marginSize = 10;
+	private static Rectangle pageSize = PageSize.A4;
 
 	// Add meta data to the PDF document
 	private static void addMetaData(Document document) {
@@ -33,49 +40,54 @@ public class PDFWriter {
 	}
 
 	public static void addTickets(Document ticketDocument, Orders orders){
-		PdfPTable table = new PdfPTable(3);
-		table.setWidthPercentage(new Float(100.00));
+		int tableColumns = 1;
+		PdfPTable table = new PdfPTable(tableColumns);
+		table.setWidthPercentage(100);
 		
 		for (int i = 0; i < orders.size(); i++) {
 			Order thisOrder = orders.getOrder(i);
 			PdfPCell cell = new PdfPCell();
-			cell.setMinimumHeight((float) 25.0);
-			//cell.setFixedHeight((float)25.0);
+			//cell.setMinimumHeight((float) 80.0);
+			cell.setFixedHeight(pageSize.getHeight() - marginSize);
+			cell.setBorderWidth(1);
+			cell.setPadding(10);
 			
 			//The phrase is the main ticket container
-			Phrase allTicket = new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, (float)6, new BaseColor(0, 0, 0)));
+			Phrase container = new Phrase("", defaultFont);
 
-			//Chunks constitute the individual lines in the tickets
-			Chunk orderID = 
-					new Chunk ("ORDER: "+(int)thisOrder.getReference()+"\n");
-			Chunk childName = 
-					new Chunk ("NAME: "+thisOrder.getChildLastName()+", "+thisOrder.getChildFirstName()+"\n");
-			Chunk childClass = 
-					new Chunk ("CLASS: "+thisOrder.getChildClass()+"\n");
-			Chunk childTeacher = 
-					new Chunk ("TEACHER: "+thisOrder.getChildClass()+"\n");
-			Chunk specialInstructions = 
-					new Chunk (checkSpecialRequirements(thisOrder.getSpecialIntructions()));
-			Chunk actualOrder =
-					new Chunk (	"\n" + 
-								formatElement(thisOrder.getSandwhich()) +
-								formatElement(thisOrder.getDrinks()) +
-								formatElement(thisOrder.getFruit()) +
-								formatElement(thisOrder.getHotFood()) +
-								formatElement(thisOrder.getOther()) +
-								formatElement(thisOrder.getSushi()) +
-								formatElement(thisOrder.getSnack()));
+			//Paragraphs constitute the individual lines in the tickets
+			Phrase orderID = 
+					new Phrase ("ORDER: "+(int)thisOrder.getReference()+"\n");
+			System.err.println(thisOrder.getReference());
+			Phrase childName = 
+					new Phrase ("NAME: "+thisOrder.getChildLastName()+", "+thisOrder.getChildFirstName()+"\n");
+			Phrase childClass = 
+					new Phrase ("CLASS: "+thisOrder.getChildClass()+"\n");
+			Phrase childTeacher = 
+					new Phrase ("TEACHER: "+thisOrder.getChildClass()+"\n");
+			Phrase specialInstructions = 
+					// new Phrase (checkSpecialRequirements(thisOrder.getSpecialIntructions()));
+					new Phrase ();
+			Phrase actualOrder =
+					new Phrase (	"\n" + 
+								splitOrderContents(thisOrder.getSandwhich()) +
+								splitOrderContents(thisOrder.getDrinks()) +
+								splitOrderContents(thisOrder.getFruit()) +
+								splitOrderContents(thisOrder.getHotFood()) +
+								splitOrderContents(thisOrder.getOther()) +
+								splitOrderContents(thisOrder.getSushi()) +
+								splitOrderContents(thisOrder.getSnack()));
 			
 			//Add all the chunks to the phrase
-			allTicket.add(orderID);
-			allTicket.add(childName);
-			allTicket.add(childClass);
-			allTicket.add(childTeacher);
-			allTicket.add(specialInstructions);
-			allTicket.add(actualOrder);
+			container.add(orderID);
+			container.add(childName);
+			container.add(childClass);
+			container.add(childTeacher);
+			container.add(specialInstructions);
+			container.add(actualOrder);
 			
 			//Add the phrase to the cell
-			cell.setPhrase(allTicket);
+			cell.setPhrase(container);
 			cell.setNoWrap(false);
 			
 			//Add the cell to the table
@@ -88,82 +100,109 @@ public class PDFWriter {
 			e.printStackTrace();
 		}
 	}
+
+	public static void addOrders(Document doc, Orders orders) {
+		for (Order order : orders) {
+			// New paragraph; set font
+			Paragraph para = new Paragraph();
+			para.setFont(defaultFont);
+			
+			// OrderID section
+			Phrase orderIDContainer = new Phrase("ORDER: ",defaultFont);
+			Chunk orderID =  new Chunk(order.getReference()+"\n",defaultFontBold);
+			orderIDContainer.add(orderID);
+			para.add(orderIDContainer);
+			
+			// Child Name Section
+			Phrase childNameContainer = new Phrase ("NAME: ",defaultFont);
+			Chunk childName = new Chunk (order.getChildLastName()+", "+order.getChildFirstName()+"\n",defaultFontBold);
+			childNameContainer.add(childName);
+			para.add(childNameContainer);
+			
+			// Child Class Section
+			Phrase childClassContainer = new Phrase ("CLASS: ");
+			Chunk childClass = new Chunk(order.getChildClass()+"\n",defaultFontBold);
+			childClassContainer.add(childClass);
+			para.add(childClassContainer);
+			
+			/* Child Teacher Section 
+			Phrase childTeacherContainer = new Phrase ("TEACHER: ",defaultFont);
+			Chunk childTeacher = new Chunk (order.getChildClass()+"\n",defaultFontBold);
+			childTeacherContainer.add(childTeacher);
+			para.add(childTeacherContainer);
+			 * */
+			
+			if (order.hasSpecialInstructions()) {
+				// Special Instruction Section
+				Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL_INSTRUCTIONS:\n",defaultFontBoldItalic);
+				Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultFontItalic);
+				specialInstructionsContainer.add(specialInstructions);
+				para.add(specialInstructionsContainer);				
+			}
+			
+			// Actual food items section
+			Phrase actualOrderContainer = new Phrase ("\n" + 
+								splitOrderContents(order.getSandwhich()) +
+								splitOrderContents(order.getDrinks()) +
+								splitOrderContents(order.getFruit()) +
+								splitOrderContents(order.getHotFood()) +
+								splitOrderContents(order.getOther()) +
+								splitOrderContents(order.getSushi()) +
+								splitOrderContents(order.getSnack()));
+			Chunk actualOrder = new Chunk();
+			actualOrderContainer.add(actualOrder);
+			para.add(actualOrderContainer);
+			try {
+				// Add paragraph to page and page break
+				doc.add(para);
+				doc.newPage();
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
 	
+	/**
+	 * Format order string to have new line after it, as long as it is not an empty String
+	 * @param
+	 * @return Correctly formatted String
+	 */
 	public static String formatElement(String order) {
 		if (order != null && order != "") {
-			return (order + "\n");
+			return ("1 x " + order + "\n");
 		} else {
 			return "";
 		}
 	}
 	
-	public static String checkSpecialRequirements(String special) {
-		if (special != null && special != "") {
-			String returnableString = "SPECIAL_INSTRUCTIONS:\n";
-			return returnableString+= special += "\n";
-		} else {
-			return "";
+	/**
+	 * Splits order contents at every comma in order to format correctly for PDF
+	 * @param
+	 * @returns String split into new lines
+	 */
+	public static String splitOrderContents(String order) {
+		String stringArray[] = order.split(", ");
+		String returnableString = "";
+		for (String splitOrder : stringArray) {
+			returnableString += formatElement(splitOrder);
 		}
-	}
-
-	public static void createTable(Section subCatPart) throws BadElementException {
-		PdfPTable table = new PdfPTable(3);
-
-		// t.setBorderColor(BaseColor.GRAY);
-		// t.setPadding(4);
-		// t.setSpacing(4);
-		// t.setBorderWidth(1);
-
-//		PdfPCell c1 = new PdfPCell(new Phrase("Tickets"));
-//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//		table.addCell(c1);
-//
-//		c1 = new PdfPCell(new Phrase("Table Header 2"));
-//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//		table.addCell(c1);
-//
-//		c1 = new PdfPCell(new Phrase("Table Header 3"));
-//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//		table.addCell(c1);
-//		table.setHeaderRows(1);
-
-		table.addCell("1.0                       someting                      ++something");
-		table.addCell("1.1");
-		table.addCell("1.2");
-		table.addCell("1.3");
-		table.addCell("2.2");
-		table.addCell("2.3");
-
-		subCatPart.add(table);
-
-	}
-
-	private static void createList(Section subCatPart) {
-		List list = new List(true, false, 10);
-		list.add(new ListItem("First point"));
-		list.add(new ListItem("Second point"));
-		list.add(new ListItem("Third point"));
-		subCatPart.add(list);
-	}
-
-	private static void addEmptyLine(Paragraph paragraph, int number) {
-		for (int i = 0; i < number; i++) {
-			paragraph.add(new Paragraph(" "));
-		}
+		return returnableString;
 	}
 	
 	public static void generatePDF(Orders orders) {
 		try {
-			int marginSize = 50;
-			Document document = new Document(PageSize.A5.rotate());
+			Document document = new Document(pageSize);
 			document.setMargins(marginSize,marginSize,marginSize,marginSize);
 			PdfWriter.getInstance(document, new FileOutputStream(FILE));
 			document.open();
 			
-			/* Add content to PDF */
+			// Add content to PDF
 			addMetaData(document);
 			// addTitlePage(document);
-			addTickets(document, orders);
+			//addTickets(document, orders);
+			addOrders(document, orders);
 			
 			// Close and confirm
 			document.close();

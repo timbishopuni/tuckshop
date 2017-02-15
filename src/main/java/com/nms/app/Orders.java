@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,7 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Tim
  *
  */
-public class Orders {
+public class Orders implements Iterable<Order> {
 	private List<Order> orders;
 	private List<Sandwhich> sandwhiches;
 	private MenuItems menuItems;
@@ -37,6 +38,28 @@ public class Orders {
 		sandwhiches = new ArrayList<Sandwhich>();
 		orders = new ArrayList<Order>();
 		
+		
+	}
+	
+	public class OrderIterator implements Iterator<Order> {
+		int current = 0;
+		
+		@Override
+		public boolean hasNext() {
+			if (current < Orders.this.orders.size()) {
+                return true;
+            } else {
+                return false;
+}
+		}
+
+		@Override
+		public Order next() {
+			if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+			return orders.get(current++);
+		}
 		
 	}
 
@@ -76,15 +99,15 @@ public class Orders {
 		
 		while (iterator.hasNext()) {
 			nextRow = iterator.next();
-			Order aOrder = new Order();
-			aOrder = aOrder.readOrderFromExcelRows(nextRow);
+			Order thisOrder = new Order();
+			thisOrder = thisOrder.readOrderFromExcelRows(nextRow);
 			
 			//If we find a sandwhich in the previous orders, add it to the sandwhich list for later print out
-			if(aOrder.getSandwhich()!=null&&aOrder.getSandwhich()!=""){
-				sandwhiches.add(new Sandwhich(aOrder.getSandwhich(), aOrder.getChildFirstName()+aOrder.getChildLastName(), aOrder.getSpecialIntructions(), aOrder.getChildClass()));
+			if(thisOrder.getSandwhich()!=null&&thisOrder.getSandwhich()!=""){
+				sandwhiches.add(new Sandwhich(thisOrder.getSandwhich(), thisOrder.getChildFirstName()+thisOrder.getChildLastName(), thisOrder.getSpecialIntructions(), thisOrder.getChildClass()));
 			}
-			menuItems.storeOrderIngredients(aOrder);
-			orders.add(aOrder);
+			menuItems.storeOrderIngredients(thisOrder);
+			orders.add(thisOrder);
 		}
 		workOrder.close();
 	}
@@ -121,5 +144,11 @@ public class Orders {
 	
 	public int size() {
 		return this.orders.size();
+	}
+
+	@Override
+	public Iterator<Order> iterator() {
+		// TODO Auto-generated method stub
+		return new OrderIterator();
 	}
 }

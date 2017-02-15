@@ -262,6 +262,14 @@ public class Order {
 	public String getSpecialIntructions() {
 		return specialIntructions;
 	}
+	
+	public boolean hasSpecialInstructions() {
+		if (this.specialIntructions != null && this.specialIntructions != "") {
+			return true;			
+		} else {
+			return false;
+		}
+	}
 
 	public void setSpecialIntructions(String specialIntructions) {
 		this.specialIntructions = specialIntructions;
