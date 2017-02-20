@@ -100,68 +100,97 @@ public class PDFWriter {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static Paragraph generateCommonParagraph(Order order) {
+		// New paragraph; set font
+		Paragraph para = new Paragraph();
+		para.setFont(defaultFont);
+		
+		// OrderID section
+		Phrase orderIDContainer = new Phrase("ORDER: ",defaultFont);
+		Chunk orderID =  new Chunk((int)order.getReference()+"\n",defaultFontBold);
+		orderIDContainer.add(orderID);
+		para.add(orderIDContainer);
+		
+		// Child Name Section
+		Phrase childNameContainer = new Phrase ("NAME: ",defaultFont);
+		Chunk childName = new Chunk (order.getChildLastName()+", "+order.getChildFirstName()+"\n",defaultFontBold);
+		childNameContainer.add(childName);
+		para.add(childNameContainer);
+		
+		// Child Class Section
+		Phrase childClassContainer = new Phrase ("CLASS: ");
+		Chunk childClass = new Chunk(order.getChildClass()+"\n",defaultFontBold);
+		childClassContainer.add(childClass);
+		para.add(childClassContainer);
+		
+		/* Child Teacher Section 
+		Phrase childTeacherContainer = new Phrase ("TEACHER: ",defaultFont);
+		Chunk childTeacher = new Chunk (order.getChildClass()+"\n",defaultFontBold);
+		childTeacherContainer.add(childTeacher);
+		para.add(childTeacherContainer);
+		 * */
+		
+		if (order.hasSpecialInstructions()) {
+			// Special Instruction Section
+			Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL_INSTRUCTIONS:\n",defaultFontBoldItalic);
+			Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultFontItalic);
+			specialInstructionsContainer.add(specialInstructions);
+			para.add(specialInstructionsContainer);				
+		}
+		
+		return para;
+	}
+	
 	public static void addOrders(Document doc, Orders orders) {
 		for (Order order : orders) {
-			// New paragraph; set font
-			Paragraph para = new Paragraph();
-			para.setFont(defaultFont);
+			Paragraph para = generateCommonParagraph(order);
 			
-			// OrderID section
-			Phrase orderIDContainer = new Phrase("ORDER: ",defaultFont);
-			Chunk orderID =  new Chunk(order.getReference()+"\n",defaultFontBold);
-			orderIDContainer.add(orderID);
-			para.add(orderIDContainer);
-			
-			// Child Name Section
-			Phrase childNameContainer = new Phrase ("NAME: ",defaultFont);
-			Chunk childName = new Chunk (order.getChildLastName()+", "+order.getChildFirstName()+"\n",defaultFontBold);
-			childNameContainer.add(childName);
-			para.add(childNameContainer);
-			
-			// Child Class Section
-			Phrase childClassContainer = new Phrase ("CLASS: ");
-			Chunk childClass = new Chunk(order.getChildClass()+"\n",defaultFontBold);
-			childClassContainer.add(childClass);
-			para.add(childClassContainer);
-			
-			/* Child Teacher Section 
-			Phrase childTeacherContainer = new Phrase ("TEACHER: ",defaultFont);
-			Chunk childTeacher = new Chunk (order.getChildClass()+"\n",defaultFontBold);
-			childTeacherContainer.add(childTeacher);
-			para.add(childTeacherContainer);
-			 * */
-			
-			if (order.hasSpecialInstructions()) {
-				// Special Instruction Section
-				Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL_INSTRUCTIONS:\n",defaultFontBoldItalic);
-				Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultFontItalic);
-				specialInstructionsContainer.add(specialInstructions);
-				para.add(specialInstructionsContainer);				
+			if (order.getHotFood() != null && order.getHotFood() != "") {
+				addHotFoodPage(doc, para, order);
 			}
-			
-			// Actual food items section
-			Phrase actualOrderContainer = new Phrase ("\n" + 
-								splitOrderContents(order.getSandwhich()) +
-								splitOrderContents(order.getDrinks()) +
-								splitOrderContents(order.getFruit()) +
-								splitOrderContents(order.getHotFood()) +
-								splitOrderContents(order.getOther()) +
-								splitOrderContents(order.getSushi()) +
-								splitOrderContents(order.getSnack()));
-			Chunk actualOrder = new Chunk();
-			actualOrderContainer.add(actualOrder);
-			para.add(actualOrderContainer);
-			try {
-				// Add paragraph to page and page break
-				doc.add(para);
-				doc.newPage();
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (order.getSushi() != null && order.getSushi() != "") {
+				//addSushiPage(doc, para, order);
+			}
+			if (order.getSnack() != null && order.getSnack() != "") {
+				//addSnackPage(doc, para, order);
 			}
 		}
-
+	}
+	
+	public static void addHotFoodPage(Document doc, Paragraph para, Order order) {
+		Phrase hotFoodContainer = new Phrase ("\n HOT FOOD:\n",defaultFontBoldItalic);
+		Chunk hotFood = new Chunk(splitOrderContents(order.getHotFood()));
+		hotFoodContainer.add(hotFood);
+		para.add(hotFoodContainer);
+		try {
+			// Add paragraph to page and page break
+			doc.add(para);
+			doc.newPage();
+			System.out.println("hotFOOD");
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void addSushiPage(Document doc, Paragraph para, Order order) {
+		try {
+			// Add paragraph to page and page break
+			doc.add(para);
+			doc.newPage();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void addSnackPage(Document doc, Paragraph para, Order order) {		
+		try {
+			// Add paragraph to page and page break
+			doc.add(para);
+			doc.newPage();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
