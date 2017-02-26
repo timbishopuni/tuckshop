@@ -9,6 +9,8 @@ import java.util.ListIterator;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.itextpdf.text.pdf.interfaces.PdfViewerPreferences;
 
 /**
  * PDF Writer alternative using iText Will most likely implement instead of
@@ -30,7 +32,7 @@ public class PDFWriter {
 	private static Font defaultFontBoldItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 15, BaseColor.BLACK));
 	private static Font defaultFontItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 15, BaseColor.BLACK));
 	private static int marginSize = 10;
-	private static Rectangle pageSize = PageSize.A4;
+	private static Rectangle pageSize = PageSize.A6;
 
 	// Add meta data to the PDF document
 	private static void addMetaData(Document document) {
@@ -39,69 +41,19 @@ public class PDFWriter {
 		document.addKeywords("Labels, Tuckshop, NMS");
 	}
 
-	public static void addTickets(Document ticketDocument, Orders orders){
-		int tableColumns = 1;
-		PdfPTable table = new PdfPTable(tableColumns);
-		table.setWidthPercentage(100);
-		
-		for (int i = 0; i < orders.size(); i++) {
-			Order thisOrder = orders.getOrder(i);
-			PdfPCell cell = new PdfPCell();
-			//cell.setMinimumHeight((float) 80.0);
-			cell.setFixedHeight(pageSize.getHeight() - marginSize);
-			cell.setBorderWidth(1);
-			cell.setPadding(10);
-			
-			//The phrase is the main ticket container
-			Phrase container = new Phrase("", defaultFont);
-
-			//Paragraphs constitute the individual lines in the tickets
-			Phrase orderID = 
-					new Phrase ("ORDER: "+(int)thisOrder.getReference()+"\n");
-			System.err.println(thisOrder.getReference());
-			Phrase childName = 
-					new Phrase ("NAME: "+thisOrder.getChildLastName()+", "+thisOrder.getChildFirstName()+"\n");
-			Phrase childClass = 
-					new Phrase ("CLASS: "+thisOrder.getChildClass()+"\n");
-			Phrase childTeacher = 
-					new Phrase ("TEACHER: "+thisOrder.getChildClass()+"\n");
-			Phrase specialInstructions = 
-					// new Phrase (checkSpecialRequirements(thisOrder.getSpecialIntructions()));
-					new Phrase ();
-			Phrase actualOrder =
-					new Phrase (	"\n" + 
-								splitOrderContents(thisOrder.getSandwhich()) +
-								splitOrderContents(thisOrder.getDrinks()) +
-								splitOrderContents(thisOrder.getFruit()) +
-								splitOrderContents(thisOrder.getHotFood()) +
-								splitOrderContents(thisOrder.getOther()) +
-								splitOrderContents(thisOrder.getSushi()) +
-								splitOrderContents(thisOrder.getSnack()));
-			
-			//Add all the chunks to the phrase
-			container.add(orderID);
-			container.add(childName);
-			container.add(childClass);
-			container.add(childTeacher);
-			container.add(specialInstructions);
-			container.add(actualOrder);
-			
-			//Add the phrase to the cell
-			cell.setPhrase(container);
-			cell.setNoWrap(false);
-			
-			//Add the cell to the table
-			table.addCell(cell);
-		}
-		try {
-			ticketDocument.add(table);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	/** 
+	 * Check if field is empty or null
+	 * @return Returns true if field is valid
+	 * */
+	private static <T> boolean checkField(T field) {
+		if (field != null && field != "") {
+			return true;			
+		} else {
+			return false;
 		}
 	}
-	
-	public static Paragraph generateCommonParagraph(Order order) {
+
+	private static Paragraph generateCommonParagraph(Order order) {
 		// New paragraph; set font
 		Paragraph para = new Paragraph();
 		para.setFont(defaultFont);
@@ -124,73 +76,137 @@ public class PDFWriter {
 		childClassContainer.add(childClass);
 		para.add(childClassContainer);
 		
-		/* Child Teacher Section 
-		Phrase childTeacherContainer = new Phrase ("TEACHER: ",defaultFont);
-		Chunk childTeacher = new Chunk (order.getChildClass()+"\n",defaultFontBold);
-		childTeacherContainer.add(childTeacher);
-		para.add(childTeacherContainer);
-		 * */
-		
 		if (order.hasSpecialInstructions()) {
 			// Special Instruction Section
-			Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL_INSTRUCTIONS:\n",defaultFontBoldItalic);
+			Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL INSTRUCTIONS:\n",defaultFontBoldItalic);
 			Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultFontItalic);
 			specialInstructionsContainer.add(specialInstructions);
 			para.add(specialInstructionsContainer);				
 		}
-		
+
+		para.add(new Chunk(new DottedLineSeparator()));
+		para.add(new Chunk("\n"));
 		return para;
 	}
 	
-	public static void addOrders(Document doc, Orders orders) {
+	private static void addOrders(Document doc, Orders orders) {
 		for (Order order : orders) {
-			Paragraph para = generateCommonParagraph(order);
-			
 			if (order.getHotFood() != null && order.getHotFood() != "") {
-				addHotFoodPage(doc, para, order);
+				addHotFoodPage(doc, order);
+				pageBreak(doc);
 			}
 			if (order.getSushi() != null && order.getSushi() != "") {
-				//addSushiPage(doc, para, order);
+				addSushiPage(doc, order);
+				pageBreak(doc);
 			}
 			if (order.getSnack() != null && order.getSnack() != "") {
-				//addSnackPage(doc, para, order);
+				addSnackPage(doc, order);
+				pageBreak(doc);
 			}
+			
+			// Finally add everything else
+			// i.e. sandwhich, drinks, fruit, other
+			addRemainingPage(doc, order);
 		}
 	}
 	
-	public static void addHotFoodPage(Document doc, Paragraph para, Order order) {
-		Phrase hotFoodContainer = new Phrase ("\n HOT FOOD:\n",defaultFontBoldItalic);
-		Chunk hotFood = new Chunk(splitOrderContents(order.getHotFood()));
+	private static void addRemainingPage(Document doc, Order order) {
+		Paragraph para = generateCommonParagraph(order);
+		
+		// Sandwhich
+		para.add(getSandwhichContainer(order));
+		// Drinks
+		para.add(getDrinksContainer(order));
+		// Fruit
+		para.add(getFruitContainer(order));
+		// Other
+		para.add(getOtherContainer(order));
+		
+		try {
+			// Add paragraph to page and page break
+			doc.add(para);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		
+		pageBreak(doc);
+	}
+	
+	private static Phrase getSandwhichContainer(Order order) {
+		Phrase sandwhichContainer = new Phrase ("\n SANDWHICH:\n",defaultFontBold);
+		Chunk sandwhich = new Chunk(splitOrderContents(order.getSandwhich()),defaultFont);
+		sandwhichContainer.add(sandwhich);
+		return sandwhichContainer;
+	}
+	
+	private static Phrase getDrinksContainer(Order order) {
+		Phrase drinksContainer = new Phrase ("\n DRINKS:\n",defaultFontBold);
+		Chunk drinks = new Chunk(splitOrderContents(order.getDrinks()),defaultFont);
+		drinksContainer.add(drinks);
+		return drinksContainer;
+	}
+	
+	private static Phrase getFruitContainer(Order order) {
+		Phrase fruitContainer = new Phrase ("\n FRUIT:\n",defaultFontBold);
+		Chunk fruit = new Chunk(splitOrderContents(order.getFruit()),defaultFont);
+		fruitContainer.add(fruit);
+		return fruitContainer;
+	}
+	
+	private static Phrase getOtherContainer(Order order) {
+		Phrase otherContainer = new Phrase ("\n OTHER:\n",defaultFontBold);
+		Chunk other = new Chunk(splitOrderContents(order.getOther()),defaultFont);
+		otherContainer.add(other);
+		return otherContainer;
+	}
+
+	private static void addHotFoodPage(Document doc, Order order) {
+		Paragraph para = generateCommonParagraph(order);
+		
+		Phrase hotFoodContainer = new Phrase ("\n HOT FOOD:\n",defaultFontBold);
+		Chunk hotFood = new Chunk(splitOrderContents(order.getHotFood()),defaultFont);
 		hotFoodContainer.add(hotFood);
 		para.add(hotFoodContainer);
 		try {
 			// Add paragraph to page and page break
 			doc.add(para);
-			doc.newPage();
-			System.out.println("hotFOOD");
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void addSushiPage(Document doc, Paragraph para, Order order) {
+	private static void addSushiPage(Document doc, Order order) {
+		Paragraph para = generateCommonParagraph(order);
+		
+		Phrase sushiContainer = new Phrase ("\n SUSHI:\n",defaultFontBold);
+		Chunk sushi = new Chunk(splitOrderContents(order.getSushi()),defaultFont);
+		sushiContainer.add(sushi);
+		para.add(sushiContainer);
 		try {
 			// Add paragraph to page and page break
 			doc.add(para);
-			doc.newPage();
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void addSnackPage(Document doc, Paragraph para, Order order) {		
+	private static void addSnackPage(Document doc, Order order) {
+		Paragraph para = generateCommonParagraph(order);
+		
+		Phrase snackContainer = new Phrase ("\n MORNING TEA SNACK:\n",defaultFontBold);
+		Chunk snack = new Chunk(splitOrderContents(order.getSnack()),defaultFont);
+		snackContainer.add(snack);
+		para.add(snackContainer);
 		try {
 			// Add paragraph to page and page break
 			doc.add(para);
-			doc.newPage();
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static void pageBreak(Document doc) {
+		doc.newPage();
 	}
 	
 	/**
@@ -198,9 +214,9 @@ public class PDFWriter {
 	 * @param
 	 * @return Correctly formatted String
 	 */
-	public static String formatElement(String order) {
+	private static String formatElement(String order) {
 		if (order != null && order != "") {
-			return ("1 x " + order + "\n");
+			return ("• " + order + "\n");
 		} else {
 			return "";
 		}
@@ -211,7 +227,7 @@ public class PDFWriter {
 	 * @param
 	 * @returns String split into new lines
 	 */
-	public static String splitOrderContents(String order) {
+	private static String splitOrderContents(String order) {
 		String stringArray[] = order.split(", ");
 		String returnableString = "";
 		for (String splitOrder : stringArray) {
@@ -224,21 +240,20 @@ public class PDFWriter {
 		try {
 			Document document = new Document(pageSize);
 			document.setMargins(marginSize,marginSize,marginSize,marginSize);
-			PdfWriter.getInstance(document, new FileOutputStream(FILE));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(FILE));
 			document.open();
+			PdfDestination dest = new PdfDestination(PdfDestination.FIT);
+			writer.setOpenAction(PdfAction.gotoLocalPage(1, dest, writer));
 			
 			// Add content to PDF
 			addMetaData(document);
-			// addTitlePage(document);
-			//addTickets(document, orders);
 			addOrders(document, orders);
 			
 			// Close and confirm
 			document.close();
-			System.err.println("DONE");
 			
 			// Open file automatically
-			Desktop.getDesktop().open(new File(FILE));;
+			Desktop.getDesktop().open(new File(FILE));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

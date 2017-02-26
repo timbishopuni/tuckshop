@@ -7,10 +7,12 @@ public class App
     public static void main( String[] args )
     {
         Orders orders = new Orders();
+        
         try {
 			orders.fillOrders();
 			//orders.displayOrders();
 			PDFWriter.generatePDF(orders);
+			System.out.println("Done!");
 		} catch (OrdersException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -18,7 +20,5 @@ public class App
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-       // orders.displayOrders();
-        
     }
 }

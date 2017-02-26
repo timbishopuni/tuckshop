@@ -115,8 +115,7 @@ public class Orders implements Iterable<Order> {
 	public void displayOrders() {
 		Iterator<Order> orderIterator = orders.iterator();
 		while (orderIterator.hasNext()) {
-			orderIterator.next().orderToStringFormatted();
-			//orderIterator.next().orderToString();
+			orderIterator.next().orderToString();
 			//System.out.println("\n");	
 		}
 

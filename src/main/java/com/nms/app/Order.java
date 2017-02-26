@@ -38,7 +38,7 @@ public class Order {
 	private String snack;
 	private String specialIntructions;
 
-	private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
+	//private static final //LOGGER //LOGGER = //LOGGER.get//LOGGER(Order.class.getName());
 
 	public Order() {
 		formType = "";
@@ -96,71 +96,71 @@ public class Order {
 				switch (columnIndex) {
 				case 0:
 					aOrder.setFormType((String) getCellValue(nextCell));
-					LOGGER.info("Setting form type:  " + getCellValue(nextCell));
+					//LOGGER.info("Setting form type:  " + getCellValue(nextCell));
 					break;
 				case 1:
 					aOrder.setSubmitDate((String) getCellValue(nextCell));
-					LOGGER.info("Setting submit date:  " + getCellValue(nextCell));
+					//LOGGER.info("Setting submit date:  " + getCellValue(nextCell));
 					break;
 				case 3:
 					aOrder.setReference((Double) getCellValue(nextCell));
-					LOGGER.info("Setting reference number:  " + getCellValue(nextCell));
+					//LOGGER.info("Setting reference number:  " + getCellValue(nextCell));
 					break;
 				case 5:
 					aOrder.setChildFirstName((String) getCellValue(nextCell));
-					LOGGER.info("Setting child first name: " + getCellValue(nextCell));
+					//LOGGER.info("Setting child first name: " + getCellValue(nextCell));
 					break;
 				case 6:
 					aOrder.setChildLastName((String) getCellValue(nextCell));
-					LOGGER.info("Setting child last name: " + getCellValue(nextCell));
+					//LOGGER.info("Setting child last name: " + getCellValue(nextCell));
 					break;
 				case 7:
 					aOrder.setChildClass((String) getCellValue(nextCell));
-					LOGGER.info("Setting child class: " + getCellValue(nextCell));
+					//LOGGER.info("Setting child class: " + getCellValue(nextCell));
 					break;
 				case 8:
 					aOrder.setParentFirstName((String) getCellValue(nextCell));
-					LOGGER.info("Setting parent first name: " + getCellValue(nextCell));
+					//LOGGER.info("Setting parent first name: " + getCellValue(nextCell));
 					break;
 				case 9:
 					aOrder.setParentLastName((String) getCellValue(nextCell));
-					LOGGER.info("Setting parent last name: " + getCellValue(nextCell));
+					//LOGGER.info("Setting parent last name: " + getCellValue(nextCell));
 					break;
 				case 10:
 					aOrder.setParentEmail((String) getCellValue(nextCell));
-					LOGGER.info("Setting Parent Email: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Parent Email: " + getCellValue(nextCell));
 					break;
 				case 11:
 					aOrder.setSandwhich((String) getCellValue(nextCell));
-					LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
+					//LOGGER.info("Setting sandwhich: " + getCellValue(nextCell));
 					break;
 				case 12:
 					aOrder.setDrinks((String) getCellValue(nextCell));
-					LOGGER.info("Setting drinks: " + getCellValue(nextCell));
+					//LOGGER.info("Setting drinks: " + getCellValue(nextCell));
 					break;
 				case 13:
 					aOrder.setFruit((String) getCellValue(nextCell));
-					LOGGER.info("Setting Fruit: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Fruit: " + getCellValue(nextCell));
 					break;
 				case 14:
 					aOrder.setOther((String) getCellValue(nextCell));
-					LOGGER.info("Setting Other: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Other: " + getCellValue(nextCell));
 					break;
 				case 15:
 					aOrder.setSushi((String) getCellValue(nextCell));
-					LOGGER.info("Setting Sushi: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Sushi: " + getCellValue(nextCell));
 					break;
 				case 16:
 					aOrder.setHotFood((String) getCellValue(nextCell));
-					LOGGER.info("Setting Hot Food: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Hot Food: " + getCellValue(nextCell));
 					break;
 				case 17:
 					if (aOrder.getFormType().equals("Tuckshop Pre Primary")) {
 						aOrder.setSpecialIntructions((String) getCellValue(nextCell));
-						LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
+						//LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
 					} else {
 						aOrder.setSnack((String) getCellValue(nextCell));
-						LOGGER.info("Setting Snack: " + getCellValue(nextCell));
+						//LOGGER.info("Setting Snack: " + getCellValue(nextCell));
 					}
 					break;
 				// For Pre Primary orders cell index 18 will not exist, so we
@@ -168,7 +168,7 @@ public class Order {
 				// conditional take care of this))
 				case 18:
 					aOrder.setSpecialIntructions((String) getCellValue(nextCell));
-					LOGGER.info("Setting Primary Special Instructions: " + getCellValue(nextCell));
+					//LOGGER.info("Setting Primary Special Instructions: " + getCellValue(nextCell));
 				}
 			}
 		}
@@ -179,7 +179,7 @@ public class Order {
 		return formType;
 	}
 
-	public void setFormType(String formType) {
+	private void setFormType(String formType) {
 		this.formType = formType;
 	}
 
@@ -187,7 +187,7 @@ public class Order {
 		return submitDate;
 	}
 
-	public void setSubmitDate(String submitDate) {
+	private void setSubmitDate(String submitDate) {
 		this.submitDate = submitDate;
 	}
 
@@ -195,7 +195,7 @@ public class Order {
 		return reference;
 	}
 
-	public void setReference(double d) {
+	private void setReference(double d) {
 		this.reference = d;
 	}
 
@@ -204,26 +204,12 @@ public class Order {
 				+ parentLastName + " " + parentEmail + " " + sandwhich + " " + drinks + " " + fruit + " " + hotFood
 				+ " " + other + " " + specialIntructions);
 	}
-	
-	public void orderToStringFormatted() {
-		String[] orderArray = {childFirstName, childLastName, childClass, parentFirstName, parentLastName, parentEmail, sandwhich, drinks, fruit, hotFood, other, specialIntructions};
-		char letter = 'A';
-		
-		for (String element : orderArray) {
-			if (element != null && element != "") {
-				System.out.println("Column: " + letter++ + " - " + element);				
-			} else {
-				System.out.println("Column: " + letter++ + " ------------------------------");
-			}
-		}
-		System.out.println("\n");
-	}
 
 	public String getFruit() {
 		return fruit;
 	}
 
-	public void setFruit(String fruit) {
+	private void setFruit(String fruit) {
 		this.fruit = fruit;
 	}
 
@@ -231,7 +217,7 @@ public class Order {
 		return childFirstName;
 	}
 
-	public void setChildFirstName(String childFirstName) {
+	private void setChildFirstName(String childFirstName) {
 		this.childFirstName = childFirstName;
 	}
 
@@ -239,7 +225,7 @@ public class Order {
 		return childLastName;
 	}
 
-	public void setChildLastName(String childLastName) {
+	private void setChildLastName(String childLastName) {
 		this.childLastName = childLastName;
 	}
 
@@ -247,7 +233,7 @@ public class Order {
 		return childClass;
 	}
 
-	public void setChildClass(String childClass) {
+	private void setChildClass(String childClass) {
 		this.childClass = childClass;
 	}
 
@@ -255,7 +241,7 @@ public class Order {
 		return drinks;
 	}
 
-	public void setDrinks(String drinks) {
+	private void setDrinks(String drinks) {
 		this.drinks = drinks;
 	}
 
@@ -271,7 +257,7 @@ public class Order {
 		}
 	}
 
-	public void setSpecialIntructions(String specialIntructions) {
+	private void setSpecialIntructions(String specialIntructions) {
 		this.specialIntructions = specialIntructions;
 	}
 
@@ -279,7 +265,7 @@ public class Order {
 		return parentFirstName;
 	}
 
-	public void setParentFirstName(String parentFirstName) {
+	private void setParentFirstName(String parentFirstName) {
 		this.parentFirstName = parentFirstName;
 	}
 
@@ -287,7 +273,7 @@ public class Order {
 		return parentLastName;
 	}
 
-	public void setParentLastName(String parentLastName) {
+	private void setParentLastName(String parentLastName) {
 		this.parentLastName = parentLastName;
 	}
 
@@ -295,7 +281,7 @@ public class Order {
 		return parentEmail;
 	}
 
-	public void setParentEmail(String parentEmail) {
+	private void setParentEmail(String parentEmail) {
 		this.parentEmail = parentEmail;
 	}
 
@@ -303,7 +289,7 @@ public class Order {
 		return sandwhich;
 	}
 
-	public void setSandwhich(String sandwhich) {
+	private void setSandwhich(String sandwhich) {
 		this.sandwhich = sandwhich;
 	}
 
@@ -311,7 +297,7 @@ public class Order {
 		return snack;
 	}
 
-	public void setSnack(String snack) {
+	private void setSnack(String snack) {
 		this.snack = snack;
 	}
 
@@ -319,7 +305,7 @@ public class Order {
 		return hotFood;
 	}
 
-	public void setHotFood(String hotFood) {
+	private void setHotFood(String hotFood) {
 		this.hotFood = hotFood;
 	}
 
@@ -327,7 +313,7 @@ public class Order {
 		return other;
 	}
 
-	public void setOther(String other) {
+	private void setOther(String other) {
 		this.other = other;
 	}
 
@@ -335,7 +321,7 @@ public class Order {
 		return Sushi;
 	}
 
-	public void setSushi(String sushi) {
+	private void setSushi(String sushi) {
 		Sushi = sushi;
 	}
 }
