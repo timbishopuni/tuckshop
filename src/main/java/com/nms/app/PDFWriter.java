@@ -216,7 +216,7 @@ public class PDFWriter {
 	 */
 	private static String formatElement(String order) {
 		if (order != null && order != "") {
-			return ("â€¢ " + order + "\n");
+			return ("• " + order + "\n");
 		} else {
 			return "";
 		}
