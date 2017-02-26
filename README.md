@@ -11,13 +11,14 @@
 8. Open the **.csv** file you just saved in Microsoft Excel, and go to **File** -> **Save As**, and save the file as **tuckshop.xlsx**. Ensure that the file type is Excel Workbook (**.xlsx**).
 9. Create a new folder on your desktop called **tuckshop**.
 10. Move the **tuckshop.jar** and the new **tuckshop.xlsx** file into this folder.
-11. Double click the **tuckshop.jar** file to run it.
-12. After it completes, it should produce a new PDF file called **tuckshop.pdf**. This file contains the labels that can now be printed for use.
-
-## If anything goes wrong, try this:
-
-1. While holding the **Shift** key on your keyboard, right click on the **tuckshop** folder you made and select **Open a command window here**.
-2. Then type in **"java -jar tuckshop.jar"**.
+11. While holding the **Shift** key on your keyboard, right click on the **tuckshop** folder you made and select **Open a command window here**.
+12. Then type in **"java -jar tuckshop.jar"**.
     i. That's **java**, space, *dash* **jar**, space, **tuckshop**, period, **jar**.
-3. Hit the **Enter**/**Return** key on the keyboard
-4. The **tuckshop.jar** file should now execute. See point 12 above.
+13. Hit the **Enter**/**Return** key on the keyboard.
+14. Select the appropriate option:
+	i. **a** will generate a PDF will **all labels, combined**
+	ii. **h** will generate a PDF for all orders containing **Hot Food**.
+	iii. **s** will generate a PDF for all orders containing **Sushi**.
+	iv. **m** will generate a PDF for all orders containing **Morning Tea Snacks**.
+	v. **l** will generate a PDF for **all lunch orders**, *minus hot food, snacks and sushi*.
+14. After it completes, it should produce a new PDF file called **tuckshop.pdf**. This file contains the labels that can now be printed for use.

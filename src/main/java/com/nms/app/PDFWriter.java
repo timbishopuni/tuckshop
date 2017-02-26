@@ -1,5 +1,7 @@
 package com.nms.app;
 
+import java.util.Scanner;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
@@ -11,7 +13,6 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.itextpdf.text.pdf.interfaces.PdfViewerPreferences;
-
 /**
  * PDF Writer alternative using iText Will most likely implement instead of
  * PDFBox Sample code taken for learning purposes from
@@ -90,6 +91,26 @@ public class PDFWriter {
 	}
 	
 	private static void addOrders(Document doc, Orders orders) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please select which labels you would like to produce:\n"
+				+ "Type 'a' for all - this will produce one PDF with all labels combined\n"
+				+ "Type 'h' for Hot Food orders\n"
+				+ "Type 's' for Sushi orders\n"
+				+ "Type 'm' for Morning Tea orders\n"
+				+ "Type 'l' for Lunch orders\n");
+
+		String userInput = in.nextLine();
+		switch(userInput) {
+			case "a": processAllOrders(doc, orders); break;
+			case "h": processHotFood(doc, orders); break;
+			case "s": processSushi(doc, orders); break;
+			case "m": processSnack(doc, orders); break;
+			case "l": processLunch(doc, orders); break;
+			default: System.out.println("\nInvalid input. Try typing without quotes or apostrophes.\n"); addOrders(doc, orders);
+		}
+	}
+	
+	private static void processAllOrders(Document doc, Orders orders) {
 		for (Order order : orders) {
 			if (order.getSnack() != null && order.getSnack() != "") {
 				addSnackPage(doc, order);
@@ -105,6 +126,43 @@ public class PDFWriter {
 				pageBreak(doc);
 			}
 		}
+	}
+	
+	private static void processHotFood(Document doc, Orders orders) {
+		for (Order order : orders) {
+			if (order.getHotFood() != null && order.getHotFood() != "") {
+				addHotFoodPage(doc, order);
+				pageBreak(doc);
+			}
+		}
+		System.out.println("processed hot food orders");
+	}
+	
+	private static void processSushi(Document doc, Orders orders) {
+		for (Order order : orders) {
+			if (order.getSushi() != null && order.getSushi() != "") {
+				addSushiPage(doc, order);
+				pageBreak(doc);
+			}
+		}
+		System.out.println("processed sushi orders");
+	}
+	
+	private static void processSnack(Document doc, Orders orders) {
+		for (Order order : orders) {
+			if (order.getSnack() != null && order.getSnack() != "") {
+				addSnackPage(doc, order);
+				pageBreak(doc);
+			}
+		}
+		System.out.println("processed morning tea orders");
+	}
+	
+	private static void processLunch(Document doc, Orders orders) {
+		for (Order order : orders) {
+			addRemainingPage(doc, order);
+		}
+		System.out.println("processed lunch orders");
 	}
 	
 	private static void addRemainingPage(Document doc, Order order) {
