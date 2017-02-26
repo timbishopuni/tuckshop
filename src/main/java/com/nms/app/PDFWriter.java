@@ -17,11 +17,11 @@ import com.itextpdf.text.pdf.interfaces.PdfViewerPreferences;
  * PDFBox Sample code taken for learning purposes from
  * http://www.vogella.com/tutorials/JavaPDF/article.html
  * 
- * @author Tim Bishop
+ * @author Andrew Whiskin
  *
  */
 public class PDFWriter {
-	private static String FILE = "./target/tuckshop.pdf";
+	private static String FILE = "./tuckshop.pdf";
 	/* private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
