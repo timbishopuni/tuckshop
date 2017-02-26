@@ -77,7 +77,7 @@ public class Orders implements Iterable<Order> {
 
 		// Read in any files in the Orders folder
 		File[] fList = listFiles(ORDER_FOLDER);
-		System.out.println(fList.length);
+		System.err.println("list.length: " + fList.length);
 		if (fList.length <= 0) {
 			throw new OrdersException("Error: There is no order file!");
 		} 
@@ -85,7 +85,8 @@ public class Orders implements Iterable<Order> {
 
 		// Open the excel file then 
 		FileInputStream inputStream;
-		inputStream = new FileInputStream(new File(excelFile));
+		//inputStream = new FileInputStream(new File(excelFile));
+		inputStream = new FileInputStream("./data/tuckshop.xlsx");
 		Workbook workOrder;
 
 		// We will look at the first sheet in the excel file, (there should be
