@@ -90,11 +90,12 @@ public class Order {
 		while (cellIterator.hasNext()) {
 			Cell nextCell = cellIterator.next();
 			int columnIndex = nextCell.getColumnIndex();
-
+			
 			// Change to fit order, columns start from index 0 and up
 			if (getCellValue(nextCell) != null) {
 				switch (columnIndex) {
 				case 0:
+					System.out.println(aOrder.getFormType());
 					aOrder.setFormType((String) getCellValue(nextCell));
 					//LOGGER.info("Setting form type:  " + getCellValue(nextCell));
 					break;
@@ -155,8 +156,8 @@ public class Order {
 					//LOGGER.info("Setting Hot Food: " + getCellValue(nextCell));
 					break;
 				case 17:
-					if (aOrder.getFormType().equals("Tuckshop Pre Primary")) {
-						aOrder.setSpecialIntructions((String) getCellValue(nextCell));
+					if (aOrder.getFormType().equals("Tuckshop Pre-Primary")) {
+						aOrder.setSnack("");
 						//LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
 					} else {
 						aOrder.setSnack((String) getCellValue(nextCell));
