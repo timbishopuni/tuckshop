@@ -158,6 +158,8 @@ public class Order {
 				case 17:
 					if (aOrder.getFormType().equals("Tuckshop Pre-Primary")) {
 						aOrder.setSnack("");
+						//System.out.println(aOrder.getCellValue(nextCell));
+						aOrder.setSpecialIntructions((String) getCellValue(nextCell));
 						//LOGGER.info("Setting PP Special Instructions: " + getCellValue(nextCell));
 					} else {
 						aOrder.setSnack((String) getCellValue(nextCell));

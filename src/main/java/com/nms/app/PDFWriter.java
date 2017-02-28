@@ -28,10 +28,11 @@ public class PDFWriter {
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 	*/
-	private static Font defaultFont = new Font(FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK));
-	private static Font defaultFontBold = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 13, BaseColor.BLACK));
-	private static Font defaultFontBoldItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 13, BaseColor.BLACK));
-	private static Font defaultFontItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 13, BaseColor.BLACK));
+	private static Font defaultFont = new Font(FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+	private static Font defaultFontBold = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.BLACK));
+	private static Font defaultFontBoldItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 10, BaseColor.BLACK));
+	private static Font defaultFontItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 10, BaseColor.BLACK));
+	private static Font defaultSpecialFontItalic = new Font(FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 8, BaseColor.BLACK));
 	private static int marginSize = 10;
 	private static Rectangle pageSize = PageSize.A6;
 
@@ -79,10 +80,10 @@ public class PDFWriter {
 		
 		if (order.hasSpecialInstructions()) {
 			// Special Instruction Section
-			Phrase specialInstructionsContainer = new Phrase ("\n SPECIAL INSTRUCTIONS:\n",defaultFontBoldItalic);
-			Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultFontItalic);
+			Phrase specialInstructionsContainer = new Phrase ("SPECIAL INSTRUCTIONS:\n",defaultFontBoldItalic);
+			Chunk specialInstructions = new Chunk(order.getSpecialIntructions()+"\n",defaultSpecialFontItalic);
 			specialInstructionsContainer.add(specialInstructions);
-			para.add(specialInstructionsContainer);				
+			para.add(specialInstructionsContainer);
 		}
 
 		para.add(new Chunk(new DottedLineSeparator()));
@@ -189,7 +190,7 @@ public class PDFWriter {
 	
 	private static Phrase getSandwhichContainer(Order order) {
 		if (checkField(order.getSandwhich())) {
-			Phrase sandwhichContainer = new Phrase ("\n SANDWHICH:\n",defaultFontBold);
+			Phrase sandwhichContainer = new Phrase ("SANDWHICH:\n",defaultFontBold);
 			Chunk sandwhich = new Chunk(splitOrderContents(order.getSandwhich()),defaultFont);
 			sandwhichContainer.add(sandwhich);
 		return sandwhichContainer;
@@ -200,7 +201,7 @@ public class PDFWriter {
 	
 	private static Phrase getDrinksContainer(Order order) {
 		if (checkField(order.getDrinks())) {
-			Phrase drinksContainer = new Phrase ("\n DRINKS:\n",defaultFontBold);
+			Phrase drinksContainer = new Phrase ("DRINKS:\n",defaultFontBold);
 			Chunk drinks = new Chunk(splitOrderContents(order.getDrinks()),defaultFont);
 			drinksContainer.add(drinks);
 			return drinksContainer;
@@ -211,7 +212,7 @@ public class PDFWriter {
 	
 	private static Phrase getFruitContainer(Order order) {
 		if (checkField(order.getFruit())) {
-			Phrase fruitContainer = new Phrase ("\n FRUIT:\n",defaultFontBold);
+			Phrase fruitContainer = new Phrase ("FRUIT:\n",defaultFontBold);
 			Chunk fruit = new Chunk(splitOrderContents(order.getFruit()),defaultFont);
 			fruitContainer.add(fruit);
 			return fruitContainer;			
@@ -222,7 +223,7 @@ public class PDFWriter {
 	
 	private static Phrase getOtherContainer(Order order) {
 		if (checkField(order.getOther())) {
-			Phrase otherContainer = new Phrase ("\n OTHER:\n",defaultFontBold);
+			Phrase otherContainer = new Phrase ("OTHER:\n",defaultFontBold);
 			Chunk other = new Chunk(splitOrderContents(order.getOther()),defaultFont);
 			otherContainer.add(other);
 			return otherContainer;
@@ -234,7 +235,7 @@ public class PDFWriter {
 	private static void addHotFoodPage(Document doc, Order order) {
 		Paragraph para = generateCommonParagraph(order);
 		
-		Phrase hotFoodContainer = new Phrase ("\n HOT FOOD:\n",defaultFontBold);
+		Phrase hotFoodContainer = new Phrase ("HOT FOOD:\n",defaultFontBold);
 		Chunk hotFood = new Chunk(splitOrderContents(order.getHotFood()),defaultFont);
 		hotFoodContainer.add(hotFood);
 		para.add(hotFoodContainer);
@@ -249,7 +250,7 @@ public class PDFWriter {
 	private static void addSushiPage(Document doc, Order order) {
 		Paragraph para = generateCommonParagraph(order);
 		
-		Phrase sushiContainer = new Phrase ("\n SUSHI:\n",defaultFontBold);
+		Phrase sushiContainer = new Phrase ("SUSHI:\n",defaultFontBold);
 		Chunk sushi = new Chunk(splitOrderContents(order.getSushi()),defaultFont);
 		sushiContainer.add(sushi);
 		para.add(sushiContainer);
@@ -264,7 +265,7 @@ public class PDFWriter {
 	private static void addSnackPage(Document doc, Order order) {
 		Paragraph para = generateCommonParagraph(order);
 		
-		Phrase snackContainer = new Phrase ("\n MORNING TEA SNACK:\n",defaultFontBold);
+		Phrase snackContainer = new Phrase ("MORNING TEA SNACK:\n",defaultFontBold);
 		Chunk snack = new Chunk(splitOrderContents(order.getSnack()),defaultFont);
 		snackContainer.add(snack);
 		para.add(snackContainer);
